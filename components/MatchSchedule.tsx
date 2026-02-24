@@ -2,8 +2,6 @@
 
 import { Calendar, ChevronRight } from 'lucide-react'
 import { useSportsData } from '@/hooks/useSportsData'
-import { format } from 'date-fns'
-
 export default function MatchSchedule() {
   const { upcomingMatches, isLoading } = useSportsData()
 

@@ -1,149 +1,154 @@
 'use client'
 
-import Header from '@/components/Header'
-import { Trophy, Users, Calendar, TrendingUp } from 'lucide-react'
+import { Trophy, Users, Calendar, TrendingUp, ChevronRight, Flame } from 'lucide-react'
+import Link from 'next/link'
+
+const SPORTS = [
+  {
+    sport: 'football',
+    emoji: '⚽',
+    label: 'Football',
+    color: 'text-accent-green',
+    border: 'hover:border-accent-green/50',
+    glow: 'hover:shadow-accent-green/10',
+    badge: 'bg-accent-green/10 text-accent-green border-accent-green/30',
+    liveCount: 4,
+    leagues: [
+      { name: 'Premier League', country: 'England', flag: '🏴󐁧󐁢󐁥󐁮󐁧󐁿', teams: 20, topScorer: 'E. Haaland' },
+      { name: 'La Liga', country: 'Spain', flag: '🇪🇸', teams: 20, topScorer: 'R. Lewandowski' },
+      { name: 'Serie A', country: 'Italy', flag: '🇮🇹', teams: 20, topScorer: 'V. Osimhen' },
+      { name: 'Bundesliga', country: 'Germany', flag: '🇩🇪', teams: 18, topScorer: 'H. Kane' },
+    ],
+  },
+  {
+    sport: 'basketball',
+    emoji: '🏀',
+    label: 'Basketball',
+    color: 'text-accent-orange',
+    border: 'hover:border-accent-orange/50',
+    glow: 'hover:shadow-accent-orange/10',
+    badge: 'bg-accent-orange/10 text-accent-orange border-accent-orange/30',
+    liveCount: 1,
+    leagues: [
+      { name: 'NBA', country: 'USA', flag: '🇺🇸', teams: 30, topScorer: 'L. James' },
+      { name: 'EuroLeague', country: 'Europe', flag: '🇪🇺', teams: 18, topScorer: 'N. Mirotic' },
+    ],
+  },
+  {
+    sport: 'tennis',
+    emoji: '🎾',
+    label: 'Tennis',
+    color: 'text-accent-yellow',
+    border: 'hover:border-accent-yellow/50',
+    glow: 'hover:shadow-accent-yellow/10',
+    badge: 'bg-accent-yellow/10 text-accent-yellow border-accent-yellow/30',
+    liveCount: 1,
+    leagues: [
+      { name: 'Australian Open', country: 'Australia', flag: '🇦🇺', teams: 128, topScorer: 'N. Djokovic' },
+      { name: 'Roland Garros', country: 'France', flag: '🇫🇷', teams: 128, topScorer: 'R. Nadal' },
+    ],
+  },
+  {
+    sport: 'baseball',
+    emoji: '⚾',
+    label: 'Baseball',
+    color: 'text-accent-blue',
+    border: 'hover:border-accent-blue/50',
+    glow: 'hover:shadow-accent-blue/10',
+    badge: 'bg-accent-blue/10 text-accent-blue border-accent-blue/30',
+    liveCount: 0,
+    leagues: [
+      { name: 'MLB', country: 'USA', flag: '🇺🇸', teams: 30, topScorer: 'S. Ohtani' },
+    ],
+  },
+]
 
 export default function LeaguesPage() {
-  const leagues = [
-    {
-      name: 'Premier League',
-      country: 'England',
-      logo: '🏴󐁧󐁢󐁥󐁮󐁧󐁿',
-      teams: 20,
-      season: '2023/24',
-      matches: 380,
-      topScorer: 'E. Haaland',
-    },
-    {
-      name: 'La Liga',
-      country: 'Spain',
-      logo: '🇪🇸',
-      teams: 20,
-      season: '2023/24',
-      matches: 380,
-      topScorer: 'R. Lewandowski',
-    },
-    {
-      name: 'Serie A',
-      country: 'Italy',
-      logo: '🇮🇹',
-      teams: 20,
-      season: '2023/24',
-      matches: 380,
-      topScorer: 'V. Osimhen',
-    },
-    {
-      name: 'Bundesliga',
-      country: 'Germany',
-      logo: '🇩🇪',
-      teams: 18,
-      season: '2023/24',
-      matches: 306,
-      topScorer: 'H. Kane',
-    },
-    {
-      name: 'Ligue 1',
-      country: 'France',
-      logo: '🇫🇷',
-      teams: 18,
-      season: '2023/24',
-      matches: 306,
-      topScorer: 'K. Mbappé',
-    },
-    {
-      name: 'Champions League',
-      country: 'Europe',
-      logo: '⭐',
-      teams: 32,
-      season: '2023/24',
-      matches: 125,
-      topScorer: 'K. Benzema',
-    },
-  ]
-
   return (
-    <div className="min-h-screen bg-dark-bg">
-      <Header />
-      
-      <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="min-h-screen">
+      <div className="max-w-full px-4 sm:px-6 py-6">
+
         {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Football Leagues</h1>
-          <p className="text-gray-400">Explore top football leagues from around the world</p>
+        <div className="mb-8 animate-fade-in">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-2">
+            <span className="text-gradient">Sports</span> & Leagues
+          </h1>
+          <p className="text-gray-400">Browse all sports, explore leagues, and check live odds.</p>
         </div>
 
-        {/* Filters */}
-        <div className="flex gap-4 mb-8 overflow-x-auto pb-2">
-          {['All', 'Europe', 'England', 'Spain', 'Italy', 'Germany', 'France'].map((filter) => (
-            <button
-              key={filter}
-              className={`px-6 py-2 rounded-lg whitespace-nowrap transition-colors ${
-                filter === 'All'
-                  ? 'bg-primary text-white'
-                  : 'bg-dark-card border border-dark-border hover:border-primary'
-              }`}
-            >
-              {filter}
-            </button>
-          ))}
-        </div>
+        {/* Sports Grid */}
+        <div className="space-y-6">
+          {SPORTS.map(({ sport, emoji, label, color, border, glow, badge, liveCount, leagues }) => (
+            <div key={sport} className={`bg-dark-card border border-dark-border ${border} ${glow} rounded-2xl overflow-hidden transition-all duration-200 hover:shadow-xl`}>
+              {/* Sport Header */}
+              <div className="px-5 py-4 flex items-center justify-between border-b border-dark-border bg-dark-bg/50">
+                <div className="flex items-center gap-3">
+                  <span className="text-3xl">{emoji}</span>
+                  <div>
+                    <h2 className={`text-xl font-bold ${color}`}>{label}</h2>
+                    <p className="text-xs text-gray-500">{leagues.length} competitions</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  {liveCount > 0 && (
+                    <span className={`flex items-center gap-1.5 px-2.5 py-1 border rounded-full text-xs font-bold ${badge}`}>
+                      <Flame className="w-3 h-3" />
+                      {liveCount} Live
+                    </span>
+                  )}
+                  <Link
+                    href={`/leagues/${sport}`}
+                    className="flex items-center gap-1.5 px-4 py-2 bg-dark-card hover:bg-dark-surface border border-dark-border rounded-lg text-sm font-medium transition-colors group"
+                  >
+                    View Odds
+                    <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                  </Link>
+                </div>
+              </div>
 
-        {/* Leagues Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {leagues.map((league, index) => (
-            <div
-              key={index}
-              className="bg-dark-card border border-dark-border rounded-xl p-6 hover:border-primary transition-all hover:scale-105 cursor-pointer"
-            >
-              {/* League Header */}
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-4xl">{league.logo}</span>
-                    <div>
-                      <h3 className="text-xl font-bold">{league.name}</h3>
-                      <p className="text-sm text-gray-400">{league.country}</p>
+              {/* Leagues Grid */}
+              <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {leagues.map((league, i) => (
+                  <Link
+                    key={i}
+                    href={`/leagues/${sport}`}
+                    className="flex items-center gap-3 bg-dark-bg hover:bg-dark-surface border border-dark-border hover:border-dark-border/70 rounded-xl p-3 transition-all group"
+                  >
+                    <span className="text-2xl">{league.flag}</span>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-semibold text-sm truncate">{league.name}</p>
+                      <p className="text-xs text-gray-500">{league.country}</p>
                     </div>
-                  </div>
-                </div>
-                <span className="px-3 py-1 bg-primary/20 text-primary text-sm rounded-full">
-                  {league.season}
-                </span>
+                    <div className="flex flex-col items-end gap-1 flex-shrink-0">
+                      <div className="flex items-center gap-1 text-xs text-gray-500">
+                        <Users className="w-3 h-3" />
+                        {league.teams}
+                      </div>
+                      <ChevronRight className="w-3.5 h-3.5 text-gray-600 group-hover:text-accent-green transition-colors" />
+                    </div>
+                  </Link>
+                ))}
               </div>
 
-              {/* Stats */}
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <div className="bg-dark-bg rounded-lg p-3">
-                  <div className="flex items-center gap-2 text-gray-400 mb-1">
-                    <Users className="w-4 h-4" />
-                    <span className="text-xs">Teams</span>
-                  </div>
-                  <p className="text-lg font-bold">{league.teams}</p>
-                </div>
-                <div className="bg-dark-bg rounded-lg p-3">
-                  <div className="flex items-center gap-2 text-gray-400 mb-1">
-                    <Calendar className="w-4 h-4" />
-                    <span className="text-xs">Matches</span>
-                  </div>
-                  <p className="text-lg font-bold">{league.matches}</p>
-                </div>
+              {/* CTA Footer */}
+              <div className="px-5 py-3 bg-dark-bg/30 border-t border-dark-border">
+                <Link
+                  href={`/leagues/${sport}`}
+                  className={`text-sm font-medium ${color} hover:underline flex items-center gap-1`}
+                >
+                  <TrendingUp className="w-4 h-4" />
+                  See all {label} odds &amp; markets
+                </Link>
               </div>
-
-              {/* Top Scorer */}
-              <div className="flex items-center justify-between p-3 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-lg">
-                <div className="flex items-center gap-2">
-                  <Trophy className="w-4 h-4 text-secondary" />
-                  <span className="text-sm text-gray-300">Top Scorer</span>
-                </div>
-                <span className="font-bold">{league.topScorer}</span>
-              </div>
-
-              {/* Action Button */}
-              <button className="w-full mt-4 py-2 bg-primary hover:bg-primary-hover text-white rounded-lg transition-colors font-medium">
-                View Standings
-              </button>
             </div>
           ))}
+        </div>
+
+        {/* Responsible Gaming Banner */}
+        <div className="mt-8 bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4">
+          <p className="text-sm text-yellow-500/90 text-center">
+            ⚠️ <strong>Play Credits Only</strong> — SportsDash Pro uses virtual currency for demonstration purposes. No real money involved. 18+
+          </p>
         </div>
       </div>
     </div>
