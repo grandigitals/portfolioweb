@@ -7,6 +7,7 @@ const API_KEY = process.env.NEXT_PUBLIC_SPORTS_API_KEY || ''
 interface ApiHeaders {
   'x-rapidapi-key': string
   'x-rapidapi-host': string
+  [key: string]: string
 }
 
 const getHeaders = (): ApiHeaders => ({
