@@ -1,6 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react'
+import { useAuth } from '@/contexts/AuthContext'
 
 export interface BetSlipItem {
   id: string
@@ -30,7 +31,7 @@ interface WalletContextType {
   removeFromBetSlip: (id: string) => void
   updateStake: (id: string, stake: number) => void
   clearBetSlip: () => void
-  placeBet: () => { success: boolean; message: string }
+  placeBet: () => { success: boolean; message: string; requiresAuth?: boolean }
   isBetSlipOpen: boolean
   setIsBetSlipOpen: (open: boolean) => void
 }
@@ -40,31 +41,57 @@ const WalletContext = createContext<WalletContextType | undefined>(undefined)
 const INITIAL_BALANCE = 1000
 
 export function WalletProvider({ children }: { children: React.ReactNode }) {
+  const { user } = useAuth()
   const [balance, setBalance] = useState(INITIAL_BALANCE)
   const [betSlip, setBetSlip] = useState<BetSlipItem[]>([])
   const [placedBets, setPlacedBets] = useState<PlacedBet[]>([])
   const [isBetSlipOpen, setIsBetSlipOpen] = useState(false)
 
-  // Load from localStorage on mount
+  // Keys scoped to current user
+  const balanceKey = user ? `sportsdash_balance_${user.id}` : null
+  const betsKey = user ? `sportsdash_placed_bets_${user.id}` : null
+
+  // Load user-specific data whenever the logged-in user changes
   useEffect(() => {
-    try {
-      const savedBalance = localStorage.getItem('sportsdash_balance')
-      const savedBets = localStorage.getItem('sportsdash_placed_bets')
-      if (savedBalance) setBalance(parseFloat(savedBalance))
-      if (savedBets) setPlacedBets(JSON.parse(savedBets))
-    } catch (e) {
-      console.error('Failed to load wallet data:', e)
+    if (user) {
+      try {
+        const savedBalance = localStorage.getItem(`sportsdash_balance_${user.id}`)
+        const savedBets = localStorage.getItem(`sportsdash_placed_bets_${user.id}`)
+
+        // If this user has no balance yet, give them the starting balance
+        if (savedBalance === null) {
+          setBalance(INITIAL_BALANCE)
+        } else {
+          setBalance(parseFloat(savedBalance))
+        }
+
+        setPlacedBets(savedBets ? JSON.parse(savedBets) : [])
+      } catch (e) {
+        console.error('Failed to load wallet data:', e)
+        setBalance(INITIAL_BALANCE)
+        setPlacedBets([])
+      }
+    } else {
+      // Not logged in — reset to defaults (not shown in UI anyway)
+      setBalance(INITIAL_BALANCE)
+      setPlacedBets([])
+      setBetSlip([])
     }
-  }, [])
+  }, [user?.id])
 
-  // Persist balance and placed bets
+  // Persist balance for the current user whenever it changes
   useEffect(() => {
-    localStorage.setItem('sportsdash_balance', balance.toString())
-  }, [balance])
+    if (balanceKey) {
+      localStorage.setItem(balanceKey, balance.toString())
+    }
+  }, [balance, balanceKey])
 
+  // Persist placed bets for the current user whenever they change
   useEffect(() => {
-    localStorage.setItem('sportsdash_placed_bets', JSON.stringify(placedBets))
-  }, [placedBets])
+    if (betsKey) {
+      localStorage.setItem(betsKey, JSON.stringify(placedBets))
+    }
+  }, [placedBets, betsKey])
 
   const addToBetSlip = useCallback((item: Omit<BetSlipItem, 'id' | 'stake'>) => {
     setBetSlip(prev => {
@@ -89,7 +116,12 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     setBetSlip([])
   }, [])
 
-  const placeBet = useCallback((): { success: boolean; message: string } => {
+  const placeBet = useCallback((): { success: boolean; message: string; requiresAuth?: boolean } => {
+    // Must be logged in to place a bet
+    if (!user) {
+      return { success: false, message: 'Please sign in to place a bet.', requiresAuth: true }
+    }
+
     if (betSlip.length === 0) return { success: false, message: 'Your bet slip is empty.' }
 
     const totalStake = betSlip.reduce((sum, b) => sum + b.stake, 0)
@@ -113,7 +145,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     setBetSlip([])
 
     return { success: true, message: `Bet placed! $${totalStake.toFixed(2)} staked. Potential return: $${potentialReturn.toFixed(2)}` }
-  }, [betSlip, balance])
+  }, [betSlip, balance, user])
 
   return (
     <WalletContext.Provider value={{

@@ -119,11 +119,13 @@ export default function Header() {
 
             {/* Right Section */}
             <div className="flex items-center gap-2 ml-auto">
-              {/* Wallet Balance */}
-              <div className="hidden sm:flex items-center gap-1.5 bg-dark-card border border-dark-border px-3 py-1.5 rounded-lg text-sm">
-                <Wallet className="w-4 h-4 text-accent-green" />
-                <span className="font-bold text-accent-green">${balance.toFixed(2)}</span>
-              </div>
+              {/* Wallet Balance — only shown when logged in */}
+              {user && (
+                <div className="hidden sm:flex items-center gap-1.5 bg-dark-card border border-dark-border px-3 py-1.5 rounded-lg text-sm">
+                  <Wallet className="w-4 h-4 text-accent-green" />
+                  <span className="font-bold text-accent-green">${balance.toFixed(2)}</span>
+                </div>
+              )}
 
               {/* Bet Slip Toggle (desktop) */}
               <button
@@ -210,12 +212,14 @@ export default function Header() {
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-dark-border bg-dark-surface animate-fade-in">
             <div className="px-4 py-3 space-y-1">
-              {/* Wallet on mobile */}
-              <div className="flex items-center gap-2 px-3 py-2.5 bg-dark-card rounded-lg mb-3">
-                <Wallet className="w-4 h-4 text-accent-green" />
-                <span className="text-sm text-gray-400">Play Credits:</span>
-                <span className="font-bold text-accent-green ml-auto">${balance.toFixed(2)}</span>
-              </div>
+              {/* Wallet on mobile — only shown when logged in */}
+              {user && (
+                <div className="flex items-center gap-2 px-3 py-2.5 bg-dark-card rounded-lg mb-3">
+                  <Wallet className="w-4 h-4 text-accent-green" />
+                  <span className="text-sm text-gray-400">Play Credits:</span>
+                  <span className="font-bold text-accent-green ml-auto">${balance.toFixed(2)}</span>
+                </div>
+              )}
 
               {NAV_LINKS.map(({ href, label, icon: Icon }) => (
                 <Link
