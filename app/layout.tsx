@@ -31,7 +31,7 @@ export default function RootLayout({
                   {children}
                 </main>
                 {/* Desktop sidebar BetSlip */}
-                <div className="hidden md:flex w-80 flex-shrink-0 flex-col sticky top-16 h-[calc(100vh-4rem)] border-l border-dark-border bg-dark-surface">
+                <div className="hidden md:block w-80 flex-shrink-0 sticky top-16 h-[calc(100vh-4rem)] border-l border-dark-border bg-dark-surface overflow-hidden">
                   <BetSlip mode="sidebar" />
                 </div>
               </div>

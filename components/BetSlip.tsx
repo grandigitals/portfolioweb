@@ -85,15 +85,13 @@ export default function BetSlip({ mode = 'both' }: { mode?: 'sidebar' | 'mobile'
 
   // Sidebar mode: static panel, no floating button
   return (
-    <>
-      <aside className="flex flex-col h-full w-full bg-dark-surface">
-        <BetSlipContent {...sharedProps} showCloseButton={false} />
-      </aside>
+    <div className="h-full flex flex-col">
+      <BetSlipContent {...sharedProps} showCloseButton={false} />
 
       {showAuthModal && (
         <AuthModal onClose={() => setShowAuthModal(false)} />
       )}
-    </>
+    </div>
   )
 }
 
@@ -120,7 +118,7 @@ function BetSlipContent({
   showCloseButton: boolean
 }) {
   return (
-    <>
+    <div className="flex flex-col h-full">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-dark-border bg-dark-card">
         <div className="flex items-center gap-2">
@@ -357,6 +355,6 @@ function BetSlipContent({
           </p>
         </div>
       )}
-    </>
+    </div>
   )
 }
