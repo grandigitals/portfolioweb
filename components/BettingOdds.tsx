@@ -42,13 +42,13 @@ export default function BettingOdds() {
         <h2 className="text-2xl font-bold">Betting Odds</h2>
         <div className="flex gap-2 text-sm">
           <span className="px-3 py-1 bg-dark-card border border-dark-border rounded-full">Live</span>
-          <span className="px-3 py-1 bg-primary/20 text-primary rounded-full">Best Odds</span>
+          <span className="px-3 py-1 bg-accent-green/20 text-accent-green rounded-full">Best Odds</span>
         </div>
       </div>
 
       <div className="space-y-4">
         {matches.map((match) => (
-          <div key={match.id} className="bg-dark-card border border-dark-border rounded-xl overflow-hidden hover:border-primary/50 transition-colors">
+          <div key={match.id} className="bg-dark-card border border-dark-border rounded-xl overflow-hidden hover:border-accent-green/50 transition-colors">
             {/* Match Header */}
             <div className="bg-dark-bg px-6 py-4 border-b border-dark-border">
               <div className="flex items-center justify-between">
@@ -60,7 +60,7 @@ export default function BettingOdds() {
                   </div>
                   <p className="text-sm text-gray-400">Kick-off: {match.time}</p>
                 </div>
-                <button className="px-4 py-2 bg-primary hover:bg-primary-hover text-white rounded-lg transition-colors font-medium">
+                <button className="px-4 py-2 bg-accent-green hover:bg-accent-green/90 text-dark-bg rounded-lg transition-colors font-medium">
                   Place Bet
                 </button>
               </div>
@@ -86,7 +86,7 @@ export default function BettingOdds() {
                       const isBestAway = match.odds.every(o => odd.awayWin >= o.awayWin)
 
                       return (
-                        <tr key={index} className="border-b border-dark-border/50 hover:bg-dark-hover transition-colors">
+                        <tr key={index} className="border-b border-dark-border/50 hover:bg-dark-surface transition-colors">
                           <td className="py-4">
                             <span className="font-medium">{odd.bookmaker}</span>
                           </td>
@@ -100,7 +100,7 @@ export default function BettingOdds() {
                             <OddButton value={odd.awayWin} isBest={isBestAway} />
                           </td>
                           <td className="py-4 text-right">
-                            <button className="text-primary hover:text-primary-hover text-sm font-medium">
+                            <button className="text-accent-green hover:text-accent-green/80 text-sm font-medium">
                               View All
                             </button>
                           </td>
@@ -114,16 +114,16 @@ export default function BettingOdds() {
               {/* Additional Markets */}
               <div className="mt-4 pt-4 border-t border-dark-border">
                 <div className="flex gap-2 flex-wrap">
-                  <button className="px-4 py-2 bg-dark-bg hover:bg-dark-hover rounded-lg text-sm transition-colors">
+                  <button className="px-4 py-2 bg-dark-bg hover:bg-dark-surface rounded-lg text-sm transition-colors">
                     Over/Under
                   </button>
-                  <button className="px-4 py-2 bg-dark-bg hover:bg-dark-hover rounded-lg text-sm transition-colors">
+                  <button className="px-4 py-2 bg-dark-bg hover:bg-dark-surface rounded-lg text-sm transition-colors">
                     Both Teams to Score
                   </button>
-                  <button className="px-4 py-2 bg-dark-bg hover:bg-dark-hover rounded-lg text-sm transition-colors">
+                  <button className="px-4 py-2 bg-dark-bg hover:bg-dark-surface rounded-lg text-sm transition-colors">
                     Correct Score
                   </button>
-                  <button className="px-4 py-2 bg-dark-bg hover:bg-dark-hover rounded-lg text-sm transition-colors">
+                  <button className="px-4 py-2 bg-dark-bg hover:bg-dark-surface rounded-lg text-sm transition-colors">
                     First Goal Scorer
                   </button>
                 </div>
@@ -150,8 +150,8 @@ function OddButton({ value, isBest }: { value: number; isBest: boolean }) {
       <button 
         className={`px-6 py-2 rounded-lg font-bold transition-all hover:scale-105 ${
           isBest 
-            ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-lg shadow-primary/50' 
-            : 'bg-dark-bg hover:bg-dark-hover border border-dark-border'
+            ? 'bg-gradient-to-r from-accent-green to-accent-blue text-dark-bg shadow-lg shadow-accent-green/30' 
+            : 'bg-dark-bg hover:bg-dark-surface border border-dark-border'
         }`}
       >
         {value.toFixed(2)}

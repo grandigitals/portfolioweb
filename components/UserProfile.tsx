@@ -17,7 +17,7 @@ export default function UserProfile() {
         <div className="bg-dark-card rounded-xl p-6 mb-6 border border-dark-border">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
-              <div className="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center">
+              <div className="w-20 h-20 bg-gradient-to-br from-accent-green to-accent-blue rounded-full flex items-center justify-center">
                 <User className="w-10 h-10 text-white" />
               </div>
               <div>
@@ -38,7 +38,7 @@ export default function UserProfile() {
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
             <div className="bg-dark-bg rounded-lg p-4 text-center">
-              <Trophy className="w-6 h-6 text-primary mx-auto mb-2" />
+              <Trophy className="w-6 h-6 text-accent-green mx-auto mb-2" />
               <p className="text-2xl font-bold">247</p>
               <p className="text-sm text-gray-400">Matches Watched</p>
             </div>
@@ -48,7 +48,7 @@ export default function UserProfile() {
               <p className="text-sm text-gray-400">Favorite Teams</p>
             </div>
             <div className="bg-dark-bg rounded-lg p-4 text-center">
-              <Calendar className="w-6 h-6 text-secondary mx-auto mb-2" />
+              <Calendar className="w-6 h-6 text-accent-blue mx-auto mb-2" />
               <p className="text-2xl font-bold">18</p>
               <p className="text-sm text-gray-400">Upcoming Matches</p>
             </div>
@@ -69,7 +69,7 @@ export default function UserProfile() {
                 onClick={() => setActiveTab(tab)}
                 className={`flex-1 px-6 py-4 font-medium capitalize transition-colors ${
                   activeTab === tab
-                    ? 'bg-primary text-white'
+                    ? 'bg-accent-green text-dark-bg'
                     : 'text-gray-400 hover:bg-dark-bg'
                 }`}
               >
@@ -101,7 +101,7 @@ function OverviewTab() {
                 <p className="font-medium">Watched: Manchester United vs Liverpool</p>
                 <p className="text-sm text-gray-400">2 hours ago</p>
               </div>
-              <span className="text-primary">2-1</span>
+              <span className="text-accent-green">2-1</span>
             </div>
           ))}
         </div>
@@ -122,7 +122,7 @@ function FavoritesTab() {
       <h3 className="text-xl font-bold mb-4">Favorite Teams</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {favoriteTeams.map((team, i) => (
-          <div key={i} className="bg-dark-bg rounded-lg p-4 flex items-center gap-3 hover:bg-dark-hover transition-colors cursor-pointer">
+          <div key={i} className="bg-dark-bg rounded-lg p-4 flex items-center gap-3 hover:bg-dark-surface transition-colors cursor-pointer">
             <span className="text-4xl">{team.logo}</span>
             <div>
               <p className="font-medium">{team.name}</p>
@@ -142,7 +142,7 @@ function SettingsTab() {
         <h3 className="text-xl font-bold mb-4">Notification Settings</h3>
         <div className="space-y-3">
           {['Live Match Updates', 'Favorite Team Alerts', 'Score Notifications'].map((setting) => (
-            <label key={setting} className="flex items-center justify-between p-4 bg-dark-bg rounded-lg cursor-pointer hover:bg-dark-hover transition-colors">
+            <label key={setting} className="flex items-center justify-between p-4 bg-dark-bg rounded-lg cursor-pointer hover:bg-dark-surface transition-colors">
               <span>{setting}</span>
               <input type="checkbox" defaultChecked className="w-5 h-5" />
             </label>
